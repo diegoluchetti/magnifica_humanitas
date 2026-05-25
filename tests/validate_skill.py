@@ -14,7 +14,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_URL = "https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html"
 SKILL = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "SKILL.md"
+SKILL_LAW = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "magnifica-humanitas-law.md"
 LAW = ROOT / "docs" / "magnifica-humanitas-law.md"
 VALIDATION = ROOT / "docs" / "validation.md"
 README = ROOT / "README.md"
@@ -44,6 +46,7 @@ def validate_skill() -> None:
     assert len(re.search(r"^---\n(.*?)\n---", text, re.DOTALL).group(1)) <= 1024
 
     for phrase in [
+        SOURCE_URL,
         "Socratic",
         "bias",
         "intention",
@@ -57,21 +60,30 @@ def validate_skill() -> None:
         "freedom",
         "Babel",
         "Nehemiah",
+        "Recourse",
         "recourse",
         "human responsibility",
     ]:
         assert_contains(text, phrase, "skill")
 
+    for paragraph in ["§10", "§71", "§102", "§105", "§137", "§164", "§197"]:
+        assert_contains(text, paragraph, "installed skill")
+
     assert_regex(text, r"ask.*question", "skill")
     assert_regex(text, r"do not.*replace.*moral", "skill")
     assert_regex(text, r"refuse|decline|cannot help", "skill")
     assert_regex(text, r"reframe|redirect|offer", "skill")
+    assert_regex(text, r"\|\s*Recourse\s*\|", "skill law table")
 
 
 def validate_law() -> None:
     text = read(LAW)
+    installed = read(SKILL_LAW)
+    assert_contains(text, SOURCE_URL, "law summary")
+    assert_contains(installed, SOURCE_URL, "installed law summary")
     for paragraph in ["4", "10", "14", "15", "71", "85", "102", "105", "137", "164", "197"]:
         assert_contains(text, f"§{paragraph}", "law summary")
+        assert_contains(installed, f"§{paragraph}", "installed law summary")
     for principle in [
         "Human person at the center",
         "Truth is a common good",
@@ -80,10 +92,12 @@ def validate_law() -> None:
         "Disarm words",
     ]:
         assert_contains(text, principle, "law summary")
+        assert_contains(installed, principle, "installed law summary")
 
 
 def validate_scenarios() -> None:
     scenarios = json.loads(read(SCENARIOS))
+    skill_text = read(SKILL).lower()
     if len(scenarios) < 5:
         raise AssertionError("tests/scenarios.json must define at least five pressure scenarios")
     required = {"id", "prompt", "expected_questions", "must_apply", "must_not_do"}
@@ -97,16 +111,24 @@ def validate_scenarios() -> None:
             raise AssertionError(f"Scenario {scenario['id']} must name applicable principles")
         if not scenario["must_not_do"]:
             raise AssertionError(f"Scenario {scenario['id']} must name prohibited behavior")
+        for principle in scenario["must_apply"]:
+            if principle.lower() not in skill_text:
+                raise AssertionError(
+                    f"Scenario {scenario['id']} applies '{principle}', but SKILL.md does not mention it"
+                )
 
 
 def validate_repo_docs() -> None:
-    read(VALIDATION)
-    read(README)
+    validation = read(VALIDATION)
+    readme = read(README)
+    assert_contains(readme, SOURCE_URL, "README")
+    assert_contains(validation, "behavioral", "validation plan")
     for path in [
         ROOT / "adapters" / "cursor" / "README.md",
         ROOT / "adapters" / "claude-code" / "README.md",
         ROOT / "adapters" / "codex" / "README.md",
         ROOT / "CONTRIBUTING.md",
+        ROOT / "tests" / "evaluate_response.py",
         ROOT / "LICENSE",
     ]:
         read(path)

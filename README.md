@@ -54,6 +54,12 @@ Then ask your agent to use `discerning-ai-with-magnifica-humanitas` whenever a r
 python3 tests/validate_skill.py
 ```
 
+To score an agent response against a pressure scenario:
+
+```bash
+python3 tests/evaluate_response.py black-box-layoffs response.txt
+```
+
 The validator checks that the skill, law summary, adapter docs, and pressure scenarios contain the required structure and moral gates.
 
 ## Example trigger
@@ -64,6 +70,8 @@ The skill should make the agent pause, ask Socratic questions about accountabili
 
 ## Source
 
-The primary source is Pope Leo XIV, *Magnifica Humanitas*, "On Safeguarding the Human Person in the Time of Artificial Intelligence" (15 May 2026), Vatican.va.
+The primary source is Pope Leo XIV, *Magnifica Humanitas*, "On Safeguarding the Human Person in the Time of Artificial Intelligence" (15 May 2026):
+
+https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html
 
 This project is an independent engineering aid. It is not an official publication of the Holy See.
