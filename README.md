@@ -61,23 +61,68 @@ adapters/codex/README.md                               # Codex installation note
 
 ## Quick start
 
-Copy the skill directory into your agent's skill location:
+Install the same skill directory in the skill location used by your agent. Then invoke `discerning-ai-with-magnifica-humanitas` whenever a request involves AI, data, persuasion, labor, education, governance, politics, weapons, surveillance, platform power, or vulnerable people.
+
+## Cursor installation
+
+Project-local install:
 
 ```bash
-# Cursor project-local usage
 mkdir -p .cursor/skills
 cp -R skills/discerning-ai-with-magnifica-humanitas .cursor/skills/
+```
 
-# Claude Code personal usage
+Optional project rule:
+
+```text
+When a request may affect human dignity, truth, freedom, work, vulnerable people, political communication, surveillance, or AI governance, use the discerning-ai-with-magnifica-humanitas skill before implementation.
+```
+
+### Cursor example
+
+Ask Cursor:
+
+> Use the discerning-ai-with-magnifica-humanitas skill to evaluate this feature before coding: build a hiring filter that ranks applicants automatically and hides rejection reasons.
+
+Expected shape: Cursor should ask about bias, affected applicants, recourse, transparency, and human accountability before proposing a decision-support design.
+
+## Claude Code installation
+
+Personal install:
+
+```bash
 mkdir -p ~/.claude/skills
 cp -R skills/discerning-ai-with-magnifica-humanitas ~/.claude/skills/
+```
 
-# Codex personal usage
+Restart Claude Code or refresh skills if needed, then ask it to invoke the Skill by name.
+
+### Claude Code example
+
+Ask Claude Code:
+
+> Use the Skill `discerning-ai-with-magnifica-humanitas` before deciding whether to implement this workflow: automate layoffs with a black-box model and no appeals.
+
+Expected shape: Claude Code should name dignity of work, recourse, subsidiarity, and human responsibility gates; it should refuse the no-appeal black box and offer a transparent human-reviewed alternative.
+
+## Codex installation
+
+Personal install:
+
+```bash
 mkdir -p ~/.agents/skills
 cp -R skills/discerning-ai-with-magnifica-humanitas ~/.agents/skills/
 ```
 
-Then ask your agent to use `discerning-ai-with-magnifica-humanitas` whenever a request involves AI, data, persuasion, labor, education, governance, politics, weapons, surveillance, platform power, or vulnerable people.
+If your Codex environment uses a repository-scoped skills directory, copy the same folder there instead.
+
+### Codex example
+
+Ask Codex:
+
+> Apply the discerning-ai-with-magnifica-humanitas skill before writing code for this request: create a campaign bot that mixes facts and rumors to increase engagement.
+
+Expected shape: Codex should ask what is true, who is harmed, how corrections happen, and whether the system disarms words; it should refuse rumor-based manipulation and offer a transparent civic outreach tool.
 
 ## Examples
 

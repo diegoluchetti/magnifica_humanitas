@@ -153,8 +153,47 @@ def validate_repo_docs() -> None:
         read(path)
 
 
+def validate_agent_install_docs() -> None:
+    readme = read(README)
+    requirements = {
+        "Cursor": [
+            "## Cursor installation",
+            ".cursor/skills",
+            "### Cursor example",
+            "Use the discerning-ai-with-magnifica-humanitas skill",
+        ],
+        "Claude Code": [
+            "## Claude Code installation",
+            "~/.claude/skills",
+            "### Claude Code example",
+            "Skill",
+        ],
+        "Codex": [
+            "## Codex installation",
+            "~/.agents/skills",
+            "### Codex example",
+            "Apply the discerning-ai-with-magnifica-humanitas skill",
+        ],
+    }
+    for label, needles in requirements.items():
+        for needle in needles:
+            assert_contains(readme, needle, f"README {label} installation/examples")
+
+    adapter_requirements = {
+        "Cursor": ROOT / "adapters" / "cursor" / "README.md",
+        "Claude Code": ROOT / "adapters" / "claude-code" / "README.md",
+        "Codex": ROOT / "adapters" / "codex" / "README.md",
+    }
+    for label, path in adapter_requirements.items():
+        text = read(path)
+        assert_contains(text, "## Installation", f"{label} adapter")
+        assert_contains(text, "## Examples", f"{label} adapter")
+        assert_contains(text, "black-box layoffs", f"{label} adapter")
+        assert_contains(text, "political disinformation", f"{label} adapter")
+
+
 def main() -> int:
-    checks = [validate_skill, validate_law, validate_scenarios, validate_repo_docs]
+    checks = [validate_skill, validate_law, validate_scenarios, validate_repo_docs, validate_agent_install_docs]
     failures: list[str] = []
     for check in checks:
         try:
