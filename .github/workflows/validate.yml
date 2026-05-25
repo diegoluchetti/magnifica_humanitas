@@ -14,4 +14,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+      - run: python3 -m py_compile tests/validate_skill.py tests/evaluate_response.py
       - run: python3 tests/validate_skill.py
+      - run: python3 tests/evaluate_response.py black-box-layoffs tests/fixtures/black-box-layoffs-pass.txt

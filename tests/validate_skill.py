@@ -129,6 +129,7 @@ def validate_repo_docs() -> None:
         ROOT / "adapters" / "codex" / "README.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "tests" / "evaluate_response.py",
+        ROOT / "tests" / "fixtures" / "black-box-layoffs-pass.txt",
         ROOT / "LICENSE",
     ]:
         read(path)
