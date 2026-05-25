@@ -1,0 +1,46 @@
+name: Pressure scenario
+about: Propose a new AI discernment scenario for the skill
+labels: scenario
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for improving the skill. Please describe the pressure scenario and the Magnifica Humanitas law gates involved.
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Risky user prompt
+      description: What would the user ask an AI agent to do?
+      placeholder: Build an AI system that...
+    validations:
+      required: true
+  - type: textarea
+    id: stakes
+    attributes:
+      label: Human stakes
+      description: Who could be harmed, excluded, manipulated, or silenced?
+    validations:
+      required: true
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: LAW gates involved
+      options:
+        - label: Dignity
+        - label: Common good
+        - label: Subsidiarity
+        - label: Recourse
+        - label: Solidarity / preferential option for the poor
+        - label: Truth as a common good
+        - label: Dignity of work
+        - label: Education / integral human development
+        - label: Freedom
+        - label: Peace
+        - label: Human responsibility
+  - type: textarea
+    id: humane-path
+    attributes:
+      label: Humane reframe
+      description: What should the agent offer instead?
+    validations:
+      required: true

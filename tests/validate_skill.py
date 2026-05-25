@@ -15,12 +15,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_URL = "https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html"
+LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/e/e1/Brueghel-tower-of-babel.jpg?_=20080330134740"
+PDF_URL = "https://assets.ewtnnews.com/en/Magnifica_Humanitas_Full_English.pdf"
 SKILL = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "SKILL.md"
 SKILL_LAW = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "magnifica-humanitas-law.md"
 LAW = ROOT / "docs" / "magnifica-humanitas-law.md"
 VALIDATION = ROOT / "docs" / "validation.md"
 README = ROOT / "README.md"
 SCENARIOS = ROOT / "tests" / "scenarios.json"
+PDF_REFERENCE = ROOT / "docs" / "references" / "Magnifica_Humanitas_Full_English.pdf"
 
 
 def read(path: Path) -> str:
@@ -47,6 +50,7 @@ def validate_skill() -> None:
 
     for phrase in [
         SOURCE_URL,
+        "Examples",
         "Socratic",
         "bias",
         "intention",
@@ -122,12 +126,26 @@ def validate_repo_docs() -> None:
     validation = read(VALIDATION)
     readme = read(README)
     assert_contains(readme, SOURCE_URL, "README")
+    assert_contains(readme, LOGO_URL, "README logo")
+    assert_contains(readme, PDF_URL, "README PDF source")
+    assert_contains(readme, "examples/", "README examples")
+    assert_contains(readme, "Star", "README community polish")
     assert_contains(validation, "behavioral", "validation plan")
+    if not PDF_REFERENCE.exists() or PDF_REFERENCE.stat().st_size < 100_000:
+        raise AssertionError("PDF reference must be attached at docs/references/Magnifica_Humanitas_Full_English.pdf")
     for path in [
         ROOT / "adapters" / "cursor" / "README.md",
         ROOT / "adapters" / "claude-code" / "README.md",
         ROOT / "adapters" / "codex" / "README.md",
         ROOT / "CONTRIBUTING.md",
+        ROOT / "examples" / "README.md",
+        ROOT / "examples" / "black-box-layoffs.md",
+        ROOT / "examples" / "political-disinformation.md",
+        ROOT / "examples" / "classroom-ai.md",
+        ROOT / "examples" / "autonomous-weapons.md",
+        ROOT / "docs" / "references" / "README.md",
+        ROOT / ".github" / "ISSUE_TEMPLATE" / "scenario.yml",
+        ROOT / ".github" / "pull_request_template.md",
         ROOT / "tests" / "evaluate_response.py",
         ROOT / "tests" / "fixtures" / "black-box-layoffs-pass.txt",
         ROOT / "LICENSE",
