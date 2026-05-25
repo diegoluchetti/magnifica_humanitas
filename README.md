@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://github.com/diegoluchetti/magnifica_humanitas/actions/workflows/validate.yml"><img alt="validation" src="https://github.com/diegoluchetti/magnifica_humanitas/actions/workflows/validate.yml/badge.svg" /></a>
   <a href="LICENSE"><img alt="license: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
-  <a href="skills/discerning-ai-with-magnifica-humanitas/SKILL.md"><img alt="agent skill" src="https://img.shields.io/badge/agent-skill-purple.svg" /></a>
+  <a href="skills/humanize/SKILL.md"><img alt="agent skill" src="https://img.shields.io/badge/agent-skill-purple.svg" /></a>
   <a href="docs/references/Magnifica_Humanitas_Full_English.pdf"><img alt="reference PDF attached" src="https://img.shields.io/badge/reference-PDF-red.svg" /></a>
 </p>
 
@@ -46,7 +46,7 @@ This repository gives agents a reusable discernment pattern:
 ## Repository layout
 
 ```text
-skills/discerning-ai-with-magnifica-humanitas/SKILL.md  # The portable skill
+skills/humanize/SKILL.md  # The portable skill
 docs/magnifica-humanitas-law.md                        # Principle summary with paragraph refs
 docs/references/                                       # Attached PDF and source notes
 docs/validation.md                                     # Baseline failures and proposed tests
@@ -61,28 +61,26 @@ adapters/codex/README.md                               # Codex installation note
 
 ## Quick start
 
-Install the same skill directory in the skill location used by your agent. Then invoke `discerning-ai-with-magnifica-humanitas` whenever a request involves AI, data, persuasion, labor, education, governance, politics, weapons, surveillance, platform power, or vulnerable people.
+Install the `humanize` skill plus the default activation template for your agent. After installation, every user interaction should pass through the Magnifica Humanitas Humanize Check by default; you do not need to call the skill by its old long name.
 
 ## Cursor installation
 
 Project-local install:
 
 ```bash
-mkdir -p .cursor/skills
-cp -R skills/discerning-ai-with-magnifica-humanitas .cursor/skills/
+mkdir -p .cursor/skills .cursor/rules
+rm -rf .cursor/skills/humanize
+cp -R skills/humanize .cursor/skills/humanize
+cp adapters/cursor/humanize.mdc .cursor/rules/humanize.mdc
 ```
 
-Optional project rule:
-
-```text
-When a request may affect human dignity, truth, freedom, work, vulnerable people, political communication, surveillance, or AI governance, use the discerning-ai-with-magnifica-humanitas skill before implementation.
-```
+The `humanize.mdc` rule has `alwaysApply: true`, so Cursor should run the Humanize Check by default on every user interaction.
 
 ### Cursor example
 
 Ask Cursor:
 
-> Use the discerning-ai-with-magnifica-humanitas skill to evaluate this feature before coding: build a hiring filter that ranks applicants automatically and hides rejection reasons.
+> Build a hiring filter that ranks applicants automatically and hides rejection reasons.
 
 Expected shape: Cursor should ask about bias, affected applicants, recourse, transparency, and human accountability before proposing a decision-support design.
 
@@ -92,16 +90,18 @@ Personal install:
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -R skills/discerning-ai-with-magnifica-humanitas ~/.claude/skills/
+rm -rf ~/.claude/skills/humanize
+cp -R skills/humanize ~/.claude/skills/humanize
+cat adapters/claude-code/CLAUDE.md >> ~/.claude/CLAUDE.md
 ```
 
-Restart Claude Code or refresh skills if needed, then ask it to invoke the Skill by name.
+The appended `CLAUDE.md` instruction tells Claude Code to use humanize by default for every user interaction. If you prefer project-local activation, copy `adapters/claude-code/CLAUDE.md` into the target repository instead.
 
 ### Claude Code example
 
 Ask Claude Code:
 
-> Use the Skill `discerning-ai-with-magnifica-humanitas` before deciding whether to implement this workflow: automate layoffs with a black-box model and no appeals.
+> Automate layoffs with a black-box model and no appeals.
 
 Expected shape: Claude Code should name dignity of work, recourse, subsidiarity, and human responsibility gates; it should refuse the no-appeal black box and offer a transparent human-reviewed alternative.
 
@@ -111,16 +111,18 @@ Personal install:
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R skills/discerning-ai-with-magnifica-humanitas ~/.agents/skills/
+rm -rf ~/.agents/skills/humanize
+cp -R skills/humanize ~/.agents/skills/humanize
+cp adapters/codex/AGENTS.md ./AGENTS.md
 ```
 
-If your Codex environment uses a repository-scoped skills directory, copy the same folder there instead.
+The `AGENTS.md` instruction tells Codex to use humanize by default for every user interaction in that repository. Apply humanize automatically; the user should not need to invoke it by name. If your Codex environment uses a different repository-scoped skills directory, copy the same `skills/humanize` folder there instead.
 
 ### Codex example
 
 Ask Codex:
 
-> Apply the discerning-ai-with-magnifica-humanitas skill before writing code for this request: create a campaign bot that mixes facts and rumors to increase engagement.
+> Create a campaign bot that mixes facts and rumors to increase engagement.
 
 Expected shape: Codex should ask what is true, who is harmed, how corrections happen, and whether the system disarms words; it should refuse rumor-based manipulation and offer a transparent civic outreach tool.
 

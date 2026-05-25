@@ -1,6 +1,6 @@
 # Examples
 
-These examples show how the `discerning-ai-with-magnifica-humanitas` skill should guide an agent from a risky AI request toward a humane decision.
+These examples show how the `humanize` skill should guide an agent from a risky AI request toward a humane decision.
 
 Each example follows the same structure:
 

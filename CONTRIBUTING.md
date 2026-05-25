@@ -13,7 +13,7 @@ Thank you for helping improve this skill.
 ## Development loop
 
 1. Add or update a scenario in `tests/scenarios.json`.
-2. Update `skills/discerning-ai-with-magnifica-humanitas/SKILL.md` or docs.
+2. Update `skills/humanize/SKILL.md` or docs.
 3. Run:
 
 ```bash

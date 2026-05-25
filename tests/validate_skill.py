@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_URL = "https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html"
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/e/e1/Brueghel-tower-of-babel.jpg?_=20080330134740"
 PDF_URL = "https://assets.ewtnnews.com/en/Magnifica_Humanitas_Full_English.pdf"
-SKILL = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "SKILL.md"
-SKILL_LAW = ROOT / "skills" / "discerning-ai-with-magnifica-humanitas" / "magnifica-humanitas-law.md"
+SKILL = ROOT / "skills" / "humanize" / "SKILL.md"
+SKILL_LAW = ROOT / "skills" / "humanize" / "magnifica-humanitas-law.md"
 LAW = ROOT / "docs" / "magnifica-humanitas-law.md"
 VALIDATION = ROOT / "docs" / "validation.md"
 README = ROOT / "README.md"
@@ -44,12 +44,14 @@ def assert_regex(text: str, pattern: str, label: str) -> None:
 
 def validate_skill() -> None:
     text = read(SKILL)
-    assert_regex(text, r"^---\nname:\s*discerning-ai-with-magnifica-humanitas\n", "skill frontmatter")
+    assert_regex(text, r"^---\nname:\s*humanize\n", "skill frontmatter")
     assert_regex(text, r"description:\s*Use when", "skill description")
     assert len(re.search(r"^---\n(.*?)\n---", text, re.DOTALL).group(1)) <= 1024
 
     for phrase in [
         SOURCE_URL,
+        "Humanize Check",
+        "every user interaction",
         "Examples",
         "Socratic",
         "bias",
@@ -135,7 +137,10 @@ def validate_repo_docs() -> None:
         raise AssertionError("PDF reference must be attached at docs/references/Magnifica_Humanitas_Full_English.pdf")
     for path in [
         ROOT / "adapters" / "cursor" / "README.md",
+        ROOT / "adapters" / "cursor" / "humanize.mdc",
+        ROOT / "adapters" / "claude-code" / "CLAUDE.md",
         ROOT / "adapters" / "claude-code" / "README.md",
+        ROOT / "adapters" / "codex" / "AGENTS.md",
         ROOT / "adapters" / "codex" / "README.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "examples" / "README.md",
@@ -158,21 +163,24 @@ def validate_agent_install_docs() -> None:
     requirements = {
         "Cursor": [
             "## Cursor installation",
-            ".cursor/skills",
+            ".cursor/skills/humanize",
+            "humanize.mdc",
             "### Cursor example",
-            "Use the discerning-ai-with-magnifica-humanitas skill",
+            "Use humanize",
         ],
         "Claude Code": [
             "## Claude Code installation",
-            "~/.claude/skills",
+            "~/.claude/skills/humanize",
+            "CLAUDE.md",
             "### Claude Code example",
-            "Skill",
+            "Use humanize",
         ],
         "Codex": [
             "## Codex installation",
-            "~/.agents/skills",
+            "~/.agents/skills/humanize",
+            "AGENTS.md",
             "### Codex example",
-            "Apply the discerning-ai-with-magnifica-humanitas skill",
+            "Apply humanize",
         ],
     }
     for label, needles in requirements.items():
@@ -188,8 +196,22 @@ def validate_agent_install_docs() -> None:
         text = read(path)
         assert_contains(text, "## Installation", f"{label} adapter")
         assert_contains(text, "## Examples", f"{label} adapter")
+        assert_contains(text, "default", f"{label} adapter")
+        assert_contains(text, "humanize", f"{label} adapter")
         assert_contains(text, "black-box layoffs", f"{label} adapter")
         assert_contains(text, "political disinformation", f"{label} adapter")
+
+    activation_files = {
+        "Cursor default rule": ROOT / "adapters" / "cursor" / "humanize.mdc",
+        "Claude Code default instructions": ROOT / "adapters" / "claude-code" / "CLAUDE.md",
+        "Codex default instructions": ROOT / "adapters" / "codex" / "AGENTS.md",
+    }
+    for label, path in activation_files.items():
+        activation = read(path)
+        assert_contains(activation, "humanize", label)
+        assert_contains(activation, "every user interaction", label)
+        assert_contains(activation, "Magnifica Humanitas", label)
+        assert_contains(activation, "ask", label)
 
 
 def main() -> int:
