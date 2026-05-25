@@ -22,6 +22,28 @@ A cross-agent skill for Cursor, Claude Code, and Codex that guides AI engineerin
 
 The skill treats the encyclical as an operational **LAW** for agent conduct: keep the human person at the center, expose user bias and intention, and guide technical choices toward dignity, truth, work, freedom, peace, responsibility, recourse, and the common good.
 
+
+## How humanize works
+
+This flowchart was created with GPT-5.5 to make the always-on skill behavior easy to understand. Once installed with the default activation template, every user interaction enters the Humanize Check before implementation.
+
+```mermaid
+flowchart TD
+    A[User interaction] --> B[Humanize Check runs by default]
+    B --> C{Could this affect people, truth, work, freedom, power, peace, or the common good?}
+    C -- No clear human stakes --> D[Proceed normally and keep the check silent]
+    C -- Yes or unclear --> E[Ask concise Socratic question about intention, bias, affected persons, recourse, or responsibility]
+    E --> F[Apply Magnifica Humanitas LAW gates]
+    F --> G{What does discernment show?}
+    G -- Serves dignity and common good --> H[Proceed with safeguards]
+    G -- Good goal, risky means --> I[Constrain and reframe]
+    G -- Requires exploitation, deception, dehumanization, no recourse, or automated moral judgment --> J[Refuse and redirect]
+    H --> K[Offer humane next step]
+    I --> K
+    J --> K
+    K --> L[Build Jerusalem, not Babel]
+```
+
 ## Why this exists
 
 AI agents are often good at refusing obviously harmful prompts, but they usually skip the deeper work: asking why the user wants a system, which assumptions shape the request, who is made vulnerable, and how a better design could serve the common good.
